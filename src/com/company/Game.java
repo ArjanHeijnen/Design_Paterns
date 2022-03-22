@@ -1,5 +1,7 @@
 package com.company;
 
+import com.company.player.Player;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -9,21 +11,25 @@ import java.util.List;
 public class Game {
     private int activePlayerIndex = 0;
     private int turnCount = 1;
-    private List<String> players = new ArrayList<String>();
+    private List<Player> players = new ArrayList<Player>();
     private TurnDirection turnDirection = TurnDirection.CLOCKWISE;
     boolean gameStart = true;
 
     public Game() {
-        addPlayers();
     }
 
     public void startGame() throws IOException {
+        shareStartCards(7);
         BufferedReader reader = new BufferedReader(
                 new InputStreamReader(System.in));
         while (gameStart) {
-            System.out.println(players.get(activePlayerIndex) + "'s Turn(" + turnCount + "):");
+            System.out.println(players.get(activePlayerIndex).getPlayerName() + "'s Turn(" + turnCount + "):");
+            System.out.println(players.get(activePlayerIndex).getCardsInHand());
             String playedCard = reader.readLine();
-            playCard(playedCard);
+            playCard(playedCard + " AND "+ players.get(activePlayerIndex).playCard(Integer.parseInt(playedCard)));
+            if (players.get(activePlayerIndex).getCardsInHand().size() == 0){
+                selectWinner(players.get(activePlayerIndex).getPlayerName());
+            }
             nextTurn();
         }
         System.out.println("End Game");
@@ -67,12 +73,16 @@ public class Game {
         gameStart = false;
     }
 
-    private void addPlayers() {
-        players.add("player1");
-        players.add("player2");
-        players.add("player3");
-        players.add("player4");
-        System.out.println(players);
+    public void addPlayer(String playerName) {
+        Player player = new Player(playerName);
+        players.add(player);
     }
 
+    private void shareStartCards(int startAmount) {
+        for (int i = 0; i < players.size(); i++) {
+            for (int p = 0; p < startAmount; p++) {
+                players.get(i).addCardToHand(i + ":" + p);
+            }
+        }
+    }
 }
