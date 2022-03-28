@@ -1,4 +1,4 @@
-package com.company;
+package com.stendenstudenten.unogame;
 
 import java.io.IOException;
 

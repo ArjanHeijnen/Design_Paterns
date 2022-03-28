@@ -1,4 +1,4 @@
-package com.company;
+package com.stendenstudenten.unogame;
 
 public enum TurnDirection {
     CLOCKWISE,
