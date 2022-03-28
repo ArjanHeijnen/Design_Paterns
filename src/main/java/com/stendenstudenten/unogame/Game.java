@@ -1,6 +1,7 @@
 package com.stendenstudenten.unogame;
 
-import com.company.player.Player;
+
+import com.stendenstudenten.unogame.player.Player;
 
 import java.io.BufferedReader;
 import java.io.IOException;
