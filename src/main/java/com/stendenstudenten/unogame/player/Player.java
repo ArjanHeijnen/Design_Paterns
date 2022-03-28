@@ -1,4 +1,4 @@
-package com.company.player;
+package com.stendenstudenten.unogame.player;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <HBox fx:id="playerHandHbox" layoutX="300.0" layoutY="14.0" prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <fx:include source="card.fxml" />
+         </children>
+      </HBox>
+      <HBox fx:id="playerHandHbox1" layoutX="300.0" layoutY="395.0" prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <fx:include source="card.fxml" />
+         </children>
+      </HBox>
+      <HBox fx:id="playerHandHbox11" layoutX="14.0" layoutY="205.0" prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <fx:include source="card.fxml" />
+         </children>
+      </HBox>
+      <HBox fx:id="playerHandHbox111" layoutX="586.0" layoutY="205.0" prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <fx:include source="card.fxml" />
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>
