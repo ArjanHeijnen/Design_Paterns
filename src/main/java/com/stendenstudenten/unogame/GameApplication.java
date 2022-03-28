@@ -15,6 +15,14 @@ public class GameApplication extends Application {
         stage.setTitle("Hello!");
         stage.setScene(scene);
         stage.show();
+
+        // write your code here
+        Game game = new Game();
+        game.addPlayer("player1");
+        game.addPlayer("player2");
+        game.addPlayer("player3");
+        game.addPlayer("player4");
+        game.startGame();
     }
 
     public static void main(String[] args) {
