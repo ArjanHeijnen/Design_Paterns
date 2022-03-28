@@ -38,7 +38,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="191.0" prefWidth="120.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.stendenstudenten.unogame.Controllers.CardController">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="191.0" prefWidth="120.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.stendenstudenten.unogame.controllers.CardController">
    <children>
       <Rectangle fx:id="cardRectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="191.0" stroke="WHITE" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeType="INSIDE" strokeWidth="3.0" width="120.0" />
       <Ellipse fx:id="cardElipse" fill="WHITE" radiusX="55.0" radiusY="70.0" rotate="30.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="5.0" />

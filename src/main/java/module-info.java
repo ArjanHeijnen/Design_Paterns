@@ -5,6 +5,6 @@ module com.stendenstudenten.unogame {
 
     opens com.stendenstudenten.unogame to javafx.fxml;
     exports com.stendenstudenten.unogame;
-    exports com.stendenstudenten.unogame.Controllers;
-    opens com.stendenstudenten.unogame.Controllers to javafx.fxml;
+    exports com.stendenstudenten.unogame.controllers;
+    opens com.stendenstudenten.unogame.controllers to javafx.fxml;
 }
