@@ -2,6 +2,7 @@ package com.stendenstudenten.unogame;
 
 
 import com.stendenstudenten.unogame.card.Card;
+import com.stendenstudenten.unogame.controllers.GameViewController;
 import com.stendenstudenten.unogame.player.Player;
 
 import java.io.BufferedReader;
@@ -12,15 +13,16 @@ import java.util.List;
 import java.util.Objects;
 
 public class Game {
+    GameViewController gameViewController;
     private int activePlayerIndex = 0;
     private int turnCount = 1;
     private List<Player> players = new ArrayList<Player>();
     private TurnDirection turnDirection = TurnDirection.CLOCKWISE;
     boolean gameStart = true;
-    private final CardBuilder cardBuilder = new CardBuilder();
-    private Card lastPlayedCard = new Card("red", 1);
+    private Card lastPlayedCard = new Card.CardBuilder().setColor("#ff0000").setSymbol(1).build();
 
-    public Game() {
+    public Game(GameViewController gameViewController) {
+        this.gameViewController = gameViewController;
     }
 
     public void startGame() throws IOException {
@@ -35,8 +37,8 @@ public class Game {
             if (isNumeric(playedCard)) {
                 int cardNumber = Integer.parseInt(playedCard);
                 if (cardNumber < players.get(activePlayerIndex).getCardsInHand().size() && cardNumber > 0) {
-                    if (Objects.equals(players.get(activePlayerIndex).playCard(cardNumber).getColour(), lastPlayedCard.getColour()) || players.get(activePlayerIndex).playCard(cardNumber).getNumber() == lastPlayedCard.getNumber()) {
-                        playCard(playedCard + " AND " + players.get(activePlayerIndex).playCard(cardNumber).getColour() + players.get(activePlayerIndex).playCard(cardNumber).getNumber());
+                    if (Objects.equals(players.get(activePlayerIndex).playCard(cardNumber).getColor(), lastPlayedCard.getColor()) || players.get(activePlayerIndex).playCard(cardNumber).getSymbol() == lastPlayedCard.getSymbol()) {
+                        playCard(playedCard + " AND " + players.get(activePlayerIndex).playCard(cardNumber).getColor() + players.get(activePlayerIndex).playCard(cardNumber).getSymbol());
                         if (players.get(activePlayerIndex).getCardsInHand().size() == 0) {
                             selectWinner(players.get(activePlayerIndex).getPlayerName());
                         }
@@ -51,7 +53,7 @@ public class Game {
                 }
             } else {
                 if (playedCard.equals("p")) {
-                    players.get(activePlayerIndex).addCardToHand(cardBuilder.BuildCard());
+                    players.get(activePlayerIndex).addCardToHand(new Card.CardBuilder().setColor("#ff0000").setSymbol(1).build());
                     System.out.println("Picked a card");
                 } else {
                     System.out.println("try again");
@@ -119,9 +121,9 @@ public class Game {
     private void shareStartCards(int startAmount) {
         for (Player player : players) {
             for (int p = 0; p < startAmount; p++) {
-                Card c = cardBuilder.BuildCard();
+                Card c = new Card.CardBuilder().setColor("#ff0000").setSymbol(1).build();
                 player.addCardToHand(c);
-                System.out.println(c.getColour() + c.getNumber());
+                System.out.println(c.getColor() + c.getSymbol());
             }
         }
     }

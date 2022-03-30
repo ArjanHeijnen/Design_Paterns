@@ -28,8 +28,8 @@ public class Player {
         StringBuilder cardsAsString = new StringBuilder();
         cardsAsString.append("[");
         for (Card card : cardsInHand) {
-            cardsAsString.append(card.getColour());
-            cardsAsString.append(card.getNumber());
+            cardsAsString.append(card.getColor());
+            cardsAsString.append(card.getSymbol());
             cardsAsString.append(",");
         }
         cardsAsString.append("]");
