@@ -58,7 +58,7 @@
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="50.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <children>
             <fx:include fx:id="DiscardPileCard" source="CardView.fxml" />
-            <fx:include fx:id="DiscardPileCard1" source="CardView.fxml" />
+            <fx:include fx:id="DrawPileCard" source="CardView.fxml" />
          </children>
       </HBox>
       <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0">

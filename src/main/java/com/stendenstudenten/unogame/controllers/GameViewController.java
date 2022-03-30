@@ -22,6 +22,10 @@ public class GameViewController {
     private Group CPU2HandGroup;
     @FXML
     private Group CPU3HandGroup;
+    @FXML
+    private Pane DiscardPileCard;
+    @FXML
+    private Pane DrawPileCard;
 
 
 
@@ -32,12 +36,18 @@ public class GameViewController {
         CPU1HandGroup.getChildren().clear();
         CPU2HandGroup.getChildren().clear();
         CPU3HandGroup.getChildren().clear();
+        DiscardPileCard.getChildren().clear();
+        DrawPileCard.getChildren().clear();
+
+        DrawPileCard.getChildren().add(loadFaceDownCardView());
 
         addPlayerCardView(new Card("#99ff00", 5));
         addPlayerCardView(new Card("#99ff00", 3));
         addPlayerCardView(new Card("#99ff00", 2));
         addPlayerCardView(new Card("#99ff00", 0));
         addPlayerCardView(new Card("#99ff00", 2));
+
+        setDiscardPileCard(new Card("#99ff00", 2));
 
         setNumberOfCPUCards(3, 1);
         setNumberOfCPUCards(6, 2);
@@ -100,6 +110,14 @@ public class GameViewController {
         }
     }
 
+    private void setDiscardPileCard(Card card){
+        DiscardPileCard.getChildren().clear();
+        DiscardPileCard.getChildren().add(loadFaceUpCardView(card));
+    }
+
+    private void setDrawPileVisible(boolean isVisible){
+        DrawPileCard.setVisible(isVisible);
+    }
 
     private Pane loadFaceUpCardView(Card card){
         FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(GameApplication.class.getResource("CardView.fxml")));
