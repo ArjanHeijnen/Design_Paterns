@@ -1,30 +1,130 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+   <columnConstraints>
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="200.0" percentWidth="33.333333" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="200.0" percentWidth="33.333333" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="200.0" percentWidth="33.333333" />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints maxHeight="242.66" minHeight="242.66" prefHeight="242.66" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="242.66" minHeight="242.66" prefHeight="242.66" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="242.66" minHeight="242.66" prefHeight="242.66" vgrow="SOMETIMES" />
+   </rowConstraints>
    <children>
-      <HBox fx:id="playerHandHbox" layoutX="300.0" layoutY="14.0" prefHeight="100.0" prefWidth="200.0">
+      <VBox fx:id="CPU3HandPanel" alignment="CENTER_RIGHT" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
          <children>
-            <fx:include source="card.fxml" />
+            <Group>
+               <children>
+                  <fx:include source="card.fxml" />
+                  <fx:include source="card.fxml" />
+                  <fx:include source="card.fxml" />
+               </children>
+            </Group>
+         </children>
+      </VBox>
+      <VBox fx:id="CPU1HandPanel" alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="1">
+         <children>
+            <Group>
+               <children>
+                  <fx:include source="card.fxml" />
+                  <fx:include source="card.fxml" />
+               </children>
+            </Group>
+         </children>
+      </VBox>
+      <HBox fx:id="CPU2HandPanel" alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1">
+         <children>
+            <Group>
+               <children>
+                  <fx:include source="card.fxml" />
+                  <fx:include source="card.fxml" />
+                  <fx:include source="card.fxml" />
+               </children>
+            </Group>
          </children>
       </HBox>
-      <HBox fx:id="playerHandHbox1" layoutX="300.0" layoutY="395.0" prefHeight="100.0" prefWidth="200.0">
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="50.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <children>
-            <fx:include source="card.fxml" />
+            <fx:include fx:id="DiscardPileCard" source="card.fxml" />
          </children>
       </HBox>
-      <HBox fx:id="playerHandHbox11" layoutX="14.0" layoutY="205.0" prefHeight="100.0" prefWidth="200.0">
+      <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0">
          <children>
-            <fx:include source="card.fxml" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="UNO!">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Text>
+            <HBox alignment="TOP_CENTER">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Turn: ">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="turnLabel" strokeType="OUTSIDE" strokeWidth="0.0" text=" Player">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
+               </children>
+            </HBox>
+            <HBox alignment="TOP_CENTER">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Direction: ">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="TurnDirLabel" strokeType="OUTSIDE" strokeWidth="0.0" text="Clockwise">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
+               </children>
+            </HBox>
          </children>
-      </HBox>
-      <HBox fx:id="playerHandHbox111" layoutX="586.0" layoutY="205.0" prefHeight="100.0" prefWidth="200.0">
+      </VBox>
+      <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnSpan="3" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2">
          <children>
-            <fx:include source="card.fxml" />
+            <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefHeight="200.0">
+               <content>
+                  <HBox fx:id="PlayerHandPanel" alignment="CENTER_LEFT" maxWidth="-Infinity" minHeight="-Infinity">
+                     <children>
+                        <fx:include source="card.fxml" />
+                        <fx:include source="card.fxml" />
+                        <fx:include source="card.fxml" />
+                        <fx:include source="card.fxml" />
+                        <fx:include source="card.fxml" />
+                        <fx:include source="card.fxml" />
+                        <fx:include source="card.fxml" />
+                        <fx:include source="card.fxml" />
+                        <fx:include source="card.fxml" />
+                        <fx:include source="card.fxml" />
+                        <fx:include source="card.fxml" />
+                        <fx:include source="card.fxml" />
+                        <fx:include source="card.fxml" />
+                        <fx:include source="card.fxml" />
+                     </children>
+                  </HBox>
+               </content>
+            </ScrollPane>
          </children>
-      </HBox>
+      </VBox>
    </children>
-</AnchorPane>
+   <padding>
+      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+   </padding>
+</GridPane>
