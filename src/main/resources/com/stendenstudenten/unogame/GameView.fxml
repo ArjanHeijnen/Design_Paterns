@@ -75,7 +75,7 @@
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text fx:id="turnLabel" strokeType="OUTSIDE" strokeWidth="0.0" text=" Player">
+                  <Text fx:id="TurnText" strokeType="OUTSIDE" strokeWidth="0.0" text=" Player">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -89,7 +89,7 @@
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text fx:id="TurnDirLabel" strokeType="OUTSIDE" strokeWidth="0.0" text="Clockwise">
+                  <Text fx:id="TurnDirText" strokeType="OUTSIDE" strokeWidth="0.0" text="Clockwise">
                      <font>
                         <Font size="18.0" />
                      </font>

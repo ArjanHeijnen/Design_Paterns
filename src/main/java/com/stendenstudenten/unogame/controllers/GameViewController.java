@@ -1,13 +1,16 @@
 package com.stendenstudenten.unogame.controllers;
 
 import com.stendenstudenten.unogame.GameApplication;
+import com.stendenstudenten.unogame.TurnDirection;
 import com.stendenstudenten.unogame.card.Card;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.text.Text;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -26,6 +29,11 @@ public class GameViewController {
     private Pane DiscardPileCard;
     @FXML
     private Pane DrawPileCard;
+    @FXML
+    private Text TurnText;
+    @FXML
+    private Text TurnDirText;
+
 
 
 
@@ -40,6 +48,9 @@ public class GameViewController {
         DrawPileCard.getChildren().clear();
 
         DrawPileCard.getChildren().add(loadFaceDownCardView());
+
+        setTurnDirText(TurnDirection.COUNTERCLOCKWISE);
+        setTurnText(2);
 
         addPlayerCardView(new Card("#99ff00", 5));
         addPlayerCardView(new Card("#99ff00", 3));
@@ -64,6 +75,28 @@ public class GameViewController {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }*/
+    }
+
+    private void setTurnDirText(TurnDirection direction){
+        String text;
+        switch (direction){
+            case COUNTERCLOCKWISE -> text = "Counter Clockwise";
+            case CLOCKWISE -> text = "Clockwise";
+            default -> throw new IllegalArgumentException();
+        }
+        TurnDirText.textProperty().set(text);
+    }
+
+    private void setTurnText(int turnIndex){
+        String text;
+        switch (turnIndex){
+            case 0 -> text = "Player";
+            case 1 -> text = "CPU 1";
+            case 2 -> text = "CPU 2";
+            case 3 -> text = "CPU 3";
+            default -> throw new IndexOutOfBoundsException();
+        }
+        TurnText.textProperty().set(text);
     }
 
     private void addPlayerCardView(Card card){
