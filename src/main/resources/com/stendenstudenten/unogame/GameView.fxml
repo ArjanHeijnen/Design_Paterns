@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.stendenstudenten.unogame.controllers.PlayingFieldController">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.stendenstudenten.unogame.controllers.GameViewController">
    <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" minWidth="200.0" percentWidth="33.333333" prefWidth="100.0" />
       <ColumnConstraints hgrow="SOMETIMES" minWidth="200.0" percentWidth="33.333333" />
@@ -25,39 +25,40 @@
    <children>
       <VBox fx:id="CPU3HandPanel" alignment="CENTER_RIGHT" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
          <children>
-            <Group>
+            <Group fx:id="CPU3HandGroup">
                <children>
-                  <fx:include source="card.fxml" />
-                  <fx:include source="card.fxml" />
-                  <fx:include source="card.fxml" />
+                  <fx:include source="CardView.fxml" />
+                  <fx:include source="CardView.fxml" />
+                  <fx:include source="CardView.fxml" />
                </children>
             </Group>
          </children>
       </VBox>
-      <VBox fx:id="CPU1HandPanel" alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="1">
+      <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="1">
          <children>
-            <Group>
+            <Group fx:id="CPU1HandGroup">
                <children>
-                  <fx:include rotate="90.0" source="card.fxml" />
-                  <fx:include layoutY="-10.0" rotate="90.0" source="card.fxml" />
+                  <fx:include rotate="90.0" source="CardView.fxml" />
+                  <fx:include layoutY="10.0" rotate="90.0" source="CardView.fxml" />
                </children>
             </Group>
          </children>
       </VBox>
       <HBox fx:id="CPU2HandPanel" alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1">
          <children>
-            <Group>
+            <Group fx:id="CPU2HandGroup">
                <children>
-                  <fx:include source="card.fxml" />
-                  <fx:include source="card.fxml" />
-                  <fx:include source="card.fxml" />
+                  <fx:include source="CardView.fxml" />
+                  <fx:include source="CardView.fxml" />
+                  <fx:include source="CardView.fxml" />
                </children>
             </Group>
          </children>
       </HBox>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="50.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <children>
-            <fx:include fx:id="DiscardPileCard" source="card.fxml" />
+            <fx:include fx:id="DiscardPileCard" source="CardView.fxml" />
+            <fx:include fx:id="DiscardPileCard1" source="CardView.fxml" />
          </children>
       </HBox>
       <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0">
@@ -103,20 +104,20 @@
                <content>
                   <HBox fx:id="PlayerHandPanel" alignment="CENTER_LEFT" maxWidth="-Infinity" minHeight="-Infinity">
                      <children>
-                        <fx:include source="card.fxml" />
-                        <fx:include source="card.fxml" />
-                        <fx:include source="card.fxml" />
-                        <fx:include source="card.fxml" />
-                        <fx:include source="card.fxml" />
-                        <fx:include source="card.fxml" />
-                        <fx:include source="card.fxml" />
-                        <fx:include source="card.fxml" />
-                        <fx:include source="card.fxml" />
-                        <fx:include source="card.fxml" />
-                        <fx:include source="card.fxml" />
-                        <fx:include source="card.fxml" />
-                        <fx:include source="card.fxml" />
-                        <fx:include source="card.fxml" />
+                        <fx:include source="CardView.fxml" />
+                        <fx:include source="CardView.fxml" />
+                        <fx:include source="CardView.fxml" />
+                        <fx:include source="CardView.fxml" />
+                        <fx:include source="CardView.fxml" />
+                        <fx:include source="CardView.fxml" />
+                        <fx:include source="CardView.fxml" />
+                        <fx:include source="CardView.fxml" />
+                        <fx:include source="CardView.fxml" />
+                        <fx:include source="CardView.fxml" />
+                        <fx:include source="CardView.fxml" />
+                        <fx:include source="CardView.fxml" />
+                        <fx:include source="CardView.fxml" />
+                        <fx:include source="CardView.fxml" />
                      </children>
                   </HBox>
                </content>
