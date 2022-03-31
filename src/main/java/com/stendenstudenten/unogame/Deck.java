@@ -11,11 +11,11 @@ public class Deck {
     private List<Card> cards = new ArrayList<>();
     private final Random random = new Random();
 
-    public Deck(){
+    public Deck() {
         Card.CardBuilder builder = new Card.CardBuilder();
-        for(int c = 0; c < 4; c++){
+        for (int c = 0; c < 4; c++) {
             String color;
-            switch (c){
+            switch (c) {
                 case 0 -> color = "#d72600";
                 case 1 -> color = "#0956bf";
                 case 2 -> color = "#379711";
@@ -23,37 +23,47 @@ public class Deck {
                 default -> throw new RuntimeException();
             }
             builder.setColor(color);
-            for(int n = 1; n <= 9; n++){
+            for (int n = 1; n <= 9; n++) {
                 builder.setSymbol(n);
+                cards.add(builder.build());
+            }
+            for (int e = 0; e <= 3; e++) {
+                switch (c) {
+                    case 0 -> builder.addSkipTurnEffect(color);
+                    case 1 -> builder.addDrawCardEffect(color);
+                    case 2 -> builder.addReverseDirectionEffect(color);
+                    case 3 -> builder.addPickCardColorEffect(color);
+                    default -> throw new RuntimeException();
+                }
                 cards.add(builder.build());
             }
         }
     }
 
-    public Card getRandom(){
-        if(cards.size() > 0){
-            int i =  random.nextInt(cards.size());
+    public Card getRandom() {
+        if (cards.size() > 0) {
+            int i = random.nextInt(cards.size());
             Card pickedCard = cards.get(i);
             cards.remove(i);
             return pickedCard;
-        }else{
+        } else {
             return null;
         }
     }
 
-    public int getCardsLeft(){
+    public int getCardsLeft() {
         return cards.size();
     }
 
-    public void placeCard(Card card){
+    public void placeCard(Card card) {
         cards.add(card);
     }
 
-    public Card getTopMost(){
+    public Card getTopMost() {
         return cards.get(cards.size() - 1);
     }
 
-    public void clear(){
+    public void clear() {
         cards.clear();
     }
 

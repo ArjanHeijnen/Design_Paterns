@@ -1,4 +1,11 @@
 package com.stendenstudenten.unogame.card;
 
-public class PickColorCardEffect {
+import com.stendenstudenten.unogame.Game;
+
+public class PickColorCardEffect implements CardEffect {
+
+    @Override
+    public void execute(Game game) {
+        game.changeCardColour();
+    }
 }

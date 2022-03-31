@@ -70,7 +70,7 @@ public class GameViewController {
         }
     }
 
-    private void setTurnDirText(TurnDirection direction){
+    public void setTurnDirText(TurnDirection direction){
         String text;
         switch (direction){
             case COUNTERCLOCKWISE -> text = "Counter Clockwise";

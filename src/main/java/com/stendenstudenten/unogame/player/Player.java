@@ -24,23 +24,7 @@ public class Player {
     public List<Card> getCardsInHand() {
         return cardsInHand;
     }
-    public String getCardsInHandString() {
-        StringBuilder cardsAsString = new StringBuilder();
-        cardsAsString.append("[");
-        for (Card card : cardsInHand) {
-            cardsAsString.append(card.getColor());
-            cardsAsString.append(card.getSymbol());
-            cardsAsString.append(",");
-        }
-        cardsAsString.append("]");
-        return cardsAsString.toString();
-    }
-    public Card getCard(int cardNum) {
-        return cardsInHand.get(cardNum);
-    }
-    public void removeCardFromHand(int cardNum) {
-        cardsInHand.remove(cardNum);
-    }
+
 
     public void addCardToHand(Card card) {
         cardsInHand.add(card);

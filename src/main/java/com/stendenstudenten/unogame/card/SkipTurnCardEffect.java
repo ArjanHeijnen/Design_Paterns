@@ -1,4 +1,11 @@
 package com.stendenstudenten.unogame.card;
 
-public class SkipTurnCardEffect {
+import com.stendenstudenten.unogame.Game;
+
+public class SkipTurnCardEffect implements CardEffect {
+
+    @Override
+    public void execute(Game game) {
+        game.nextTurn();
+    }
 }

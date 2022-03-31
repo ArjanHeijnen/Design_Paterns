@@ -12,7 +12,7 @@ public class GameApplication extends Application {
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(GameApplication.class.getResource("GameView.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 320, 240);
-        stage.setTitle("Hello!");
+        stage.setTitle("Uno - by Bram en Arjan!");
         stage.setScene(scene);
         stage.setWidth(1024);
         stage.setHeight(768);
