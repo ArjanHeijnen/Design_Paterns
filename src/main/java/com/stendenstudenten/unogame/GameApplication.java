@@ -6,22 +6,18 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.Random;
 
 public class GameApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-//        FXMLLoader fxmlLoader = new FXMLLoader(GameApplication.class.getResource("card.fxml"));
-//        Scene scene = new Scene(fxmlLoader.load(), 320, 240);
-//        stage.setTitle("Hello!");
-//        stage.setScene(scene);
-//        stage.show();
-        Game game = new Game();
-        game.addPlayer("player1");
-        game.addPlayer("player2");
-        game.addPlayer("player3");
-        game.addPlayer("player4");
-        game.startGame();
+        FXMLLoader fxmlLoader = new FXMLLoader(GameApplication.class.getResource("GameView.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 320, 240);
+        stage.setTitle("Hello!");
+        stage.setScene(scene);
+        stage.setWidth(1024);
+        stage.setHeight(768);
+        stage.setResizable(false);
+        stage.show();
     }
 
     public static void main(String[] args) {

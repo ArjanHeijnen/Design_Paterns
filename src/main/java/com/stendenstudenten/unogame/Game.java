@@ -2,63 +2,119 @@ package com.stendenstudenten.unogame;
 
 
 import com.stendenstudenten.unogame.card.Card;
+import com.stendenstudenten.unogame.controllers.GameViewController;
 import com.stendenstudenten.unogame.player.Player;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class Game {
+    GameViewController gameViewController;
     private int activePlayerIndex = 0;
     private int turnCount = 1;
     private List<Player> players = new ArrayList<Player>();
     private TurnDirection turnDirection = TurnDirection.CLOCKWISE;
     boolean gameStart = true;
-    private final CardBuilder cardBuilder = new CardBuilder();
-    private Card lastPlayedCard = new Card("red", 1);
+    private Deck discardDeck;
+    private Deck drawDeck;
 
-    public Game() {
+    public Game(GameViewController gameViewController) {
+        this.gameViewController = gameViewController;
+        drawDeck = new Deck();
+        discardDeck = new Deck();
+        setLastPlayedCard(drawDeck.getRandom());
     }
 
     public void startGame() throws IOException {
         shareStartCards(7);
-        BufferedReader reader = new BufferedReader(
-                new InputStreamReader(System.in));
-        while (gameStart) {
-            System.out.println(players.get(activePlayerIndex).getPlayerName() + "'s Turn(" + turnCount + "):");
-            System.out.println(players.get(activePlayerIndex).getCardsInHandString());
-            String playedCard = reader.readLine();
+        doCPUMoves();
+    }
 
-            if (isNumeric(playedCard)) {
-                int cardNumber = Integer.parseInt(playedCard);
-                if (cardNumber < players.get(activePlayerIndex).getCardsInHand().size() && cardNumber > 0) {
-                    if (Objects.equals(players.get(activePlayerIndex).playCard(cardNumber).getColour(), lastPlayedCard.getColour()) || players.get(activePlayerIndex).playCard(cardNumber).getNumber() == lastPlayedCard.getNumber()) {
-                        playCard(playedCard + " AND " + players.get(activePlayerIndex).playCard(cardNumber).getColour() + players.get(activePlayerIndex).playCard(cardNumber).getNumber());
-                        if (players.get(activePlayerIndex).getCardsInHand().size() == 0) {
-                            selectWinner(players.get(activePlayerIndex).getPlayerName());
-                        }
-                        lastPlayedCard = players.get(activePlayerIndex).playCard(cardNumber);
-                        players.get(activePlayerIndex).removeCardFromHand(cardNumber);
-                        nextTurn();
-                    } else {
-                        System.out.println("try again");
-                    }
-                } else {
-                    System.out.println("try again");
+    private void doCPUMoves() {
+        if (activePlayerIndex != 0) {
+            gameViewController.setStatusText("its CPU turn:" + activePlayerIndex);
+            List<Card> hand = players.get(activePlayerIndex).getCardsInHand();
+            Card cardToPlay = null;
+            for (Card card : hand) {
+                if (card.matches(discardDeck.getTopMost())) {
+                    cardToPlay = card;
+                    gameViewController.setStatusText("found a card!");
+                    break;
                 }
+            }
+            while (cardToPlay == null) {
+                Card drawnCard = drawCard(activePlayerIndex);
+                if(drawnCard == null){
+                    nextTurn();
+                    return;
+                }
+                if(drawnCard.matches(discardDeck.getTopMost())){
+                    cardToPlay = drawnCard;
+                    gameViewController.setStatusText("found a card!");
+                }
+            }
+
+            setLastPlayedCard(cardToPlay);
+            hand.remove(cardToPlay);
+            gameViewController.setStatusText("cards left:" + hand.size());
+            gameViewController.setNumberOfCPUCards(hand.size(), activePlayerIndex);
+            if (hand.size() <= 0) {
+                selectWinner(players.get(activePlayerIndex).getPlayerName());
             } else {
-                if (playedCard.equals("p")) {
-                    players.get(activePlayerIndex).addCardToHand(cardBuilder.BuildCard());
-                    System.out.println("Picked a card");
-                } else {
-                    System.out.println("try again");
+                nextTurn();
+            }
+        }
+    }
+
+    public void doPlayerMove(int cardIndex){
+        if(activePlayerIndex == 0){
+            gameViewController.setStatusText("its players turn" + activePlayerIndex);
+            List<Card> playerHand = players.get(activePlayerIndex).getCardsInHand();
+            Card playedCard = playerHand.get(cardIndex);
+            if(playedCard.matches(discardDeck.getTopMost())){
+                setLastPlayedCard(playedCard);
+                playerHand.remove(cardIndex);
+                gameViewController.setPlayerCardViews(playerHand);
+                if(playerHand.size() <= 0){
+                    selectWinner(players.get(activePlayerIndex).getPlayerName());
+                }else{
+                    nextTurn();
                 }
             }
         }
-        System.out.println("End Game");
+    }
+
+    public Card drawCard(int playerIndex){
+        if(activePlayerIndex == playerIndex){
+            gameViewController.setStatusText("drawing card...");
+            Player player = players.get(playerIndex);
+            Card drawnCard = drawDeck.getRandom();
+            if(drawnCard != null){
+                player.addCardToHand(drawnCard);
+            }else{
+                gameViewController.setDrawPileVisible(false);
+            }
+            if(playerIndex == 0){
+                gameViewController.setPlayerCardViews(player.getCardsInHand());
+            }else{
+                gameViewController.setNumberOfCPUCards(player.getCardsInHand().size(), playerIndex);
+            }
+            if(drawDeck.getCardsLeft() <= 0){
+                //reshuffle discard pile to draw pile
+                reshufflePiles();
+                if(drawDeck.getCards().size() <= 0){
+                    return null;
+                }
+            }
+            return drawnCard;
+        }
+        return null;
+    }
+
+    private void setLastPlayedCard(Card card){
+        discardDeck.placeCard(card);
+        gameViewController.setDiscardPileCard(card);
     }
 
     public void nextTurn() {
@@ -76,6 +132,7 @@ public class Game {
             }
         }
         turnCount++;
+        doCPUMoves();
     }
 
     public void reverseTurnDirection() {
@@ -86,12 +143,8 @@ public class Game {
         }
     }
 
-    public void playCard(String playedCard) {
-        System.out.println(playedCard);
-    }
-
     public void selectWinner(String winner) {
-        System.out.println(winner + " has won the game!!!");
+        gameViewController.setStatusText(winner + " has won the game!!!");
         endGame();
     }
 
@@ -104,24 +157,32 @@ public class Game {
         players.add(player);
     }
 
-    public static boolean isNumeric(String strNum) {
-        if (strNum == null) {
-            return false;
+    private void reshufflePiles(){
+        if(discardDeck.getCards().size() > 1){
+            drawDeck.setCards(new ArrayList<>(discardDeck.getCards()));
+            discardDeck.clear();
+            if (drawDeck.getCards().size() > 0) {
+                discardDeck.placeCard(drawDeck.getRandom());
+                gameViewController.setDiscardPileCard(discardDeck.getTopMost());
+                gameViewController.setDrawPileVisible(true);
+            }else {
+                gameViewController.setDrawPileVisible(false);
+            }
         }
-        try {
-            double d = Double.parseDouble(strNum);
-        } catch (NumberFormatException nfe) {
-            return false;
-        }
-        return true;
+
     }
 
     private void shareStartCards(int startAmount) {
-        for (Player player : players) {
+        for (int i = 0; i < players.size(); i++) {
             for (int p = 0; p < startAmount; p++) {
-                Card c = cardBuilder.BuildCard();
+                Player player = players.get(i);
+                Card c = drawDeck.getRandom();
                 player.addCardToHand(c);
-                System.out.println(c.getColour() + c.getNumber());
+                if(i == 0){
+                    gameViewController.setPlayerCardViews(player.getCardsInHand());
+                }else{
+                    gameViewController.setNumberOfCPUCards(player.getCardsInHand().size(), i);
+                }
             }
         }
     }

@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.stendenstudenten.unogame.controllers.GameViewController">
+   <columnConstraints>
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="200.0" percentWidth="33.333333" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="200.0" percentWidth="33.333333" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="200.0" percentWidth="33.333333" />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints maxHeight="242.66" minHeight="242.66" prefHeight="242.66" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="242.66" minHeight="242.66" prefHeight="242.66" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="242.66" minHeight="242.66" prefHeight="242.66" vgrow="SOMETIMES" />
+   </rowConstraints>
+   <children>
+      <VBox fx:id="CPU3HandPanel" alignment="CENTER_RIGHT" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+         <children>
+            <Group fx:id="CPU3HandGroup">
+               <children>
+                  <fx:include source="CardView.fxml" />
+                  <fx:include source="CardView.fxml" />
+                  <fx:include source="CardView.fxml" />
+               </children>
+            </Group>
+         </children>
+      </VBox>
+      <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="1">
+         <children>
+            <Group fx:id="CPU1HandGroup">
+               <children>
+                  <fx:include rotate="90.0" source="CardView.fxml" />
+                  <fx:include layoutY="10.0" rotate="90.0" source="CardView.fxml" />
+               </children>
+            </Group>
+         </children>
+      </VBox>
+      <HBox fx:id="CPU2HandPanel" alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1">
+         <children>
+            <Group fx:id="CPU2HandGroup">
+               <children>
+                  <fx:include source="CardView.fxml" />
+                  <fx:include source="CardView.fxml" />
+                  <fx:include source="CardView.fxml" />
+               </children>
+            </Group>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="50.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+         <children>
+            <fx:include fx:id="DiscardPileCard" source="CardView.fxml" />
+            <fx:include fx:id="DrawPileCard" source="CardView.fxml" />
+         </children>
+      </HBox>
+      <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="UNO!">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Text>
+            <HBox alignment="TOP_CENTER">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Turn: ">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="TurnText" strokeType="OUTSIDE" strokeWidth="0.0" text=" Player">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
+               </children>
+            </HBox>
+            <HBox alignment="TOP_CENTER">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Direction: ">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="TurnDirText" strokeType="OUTSIDE" strokeWidth="0.0" text="Clockwise">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
+               </children>
+            </HBox>
+            <HBox alignment="TOP_CENTER">
+               <children>
+                  <Text fx:id="StatusText" strokeType="OUTSIDE" strokeWidth="0.0">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+      <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnSpan="3" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2">
+         <children>
+            <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefHeight="200.0">
+               <content>
+                  <HBox fx:id="PlayerHandPanel" alignment="CENTER_LEFT" maxWidth="-Infinity" minHeight="-Infinity">
+                     <children>
+                        <fx:include source="CardView.fxml" />
+                        <fx:include source="CardView.fxml" />
+                        <fx:include source="CardView.fxml" />
+                        <fx:include source="CardView.fxml" />
+                        <fx:include source="CardView.fxml" />
+                        <fx:include source="CardView.fxml" />
+                        <fx:include source="CardView.fxml" />
+                        <fx:include source="CardView.fxml" />
+                        <fx:include source="CardView.fxml" />
+                        <fx:include source="CardView.fxml" />
+                        <fx:include source="CardView.fxml" />
+                        <fx:include source="CardView.fxml" />
+                        <fx:include source="CardView.fxml" />
+                        <fx:include source="CardView.fxml" />
+                     </children>
+                  </HBox>
+               </content>
+            </ScrollPane>
+         </children>
+      </VBox>
+   </children>
+   <padding>
+      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+   </padding>
+</GridPane>

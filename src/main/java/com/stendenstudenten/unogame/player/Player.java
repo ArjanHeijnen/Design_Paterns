@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Player {
-    private List<Card> cardsInHand = new ArrayList<>();
+    private final List<Card> cardsInHand = new ArrayList<>();
     private String playerName;
 
     public Player(String playerName) {
@@ -28,14 +28,14 @@ public class Player {
         StringBuilder cardsAsString = new StringBuilder();
         cardsAsString.append("[");
         for (Card card : cardsInHand) {
-            cardsAsString.append(card.getColour());
-            cardsAsString.append(card.getNumber());
+            cardsAsString.append(card.getColor());
+            cardsAsString.append(card.getSymbol());
             cardsAsString.append(",");
         }
         cardsAsString.append("]");
         return cardsAsString.toString();
     }
-    public Card playCard(int cardNum) {
+    public Card getCard(int cardNum) {
         return cardsInHand.get(cardNum);
     }
     public void removeCardFromHand(int cardNum) {
