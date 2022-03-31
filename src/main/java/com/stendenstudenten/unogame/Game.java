@@ -178,10 +178,12 @@ public class Game {
                 default:
                     throw new RuntimeException("this should never happen");
             }
-            Card card = discardDeck.getTopMost();
-            card.setColor(color);
-            setLastPlayedCard(card);
         }
+        Card card = discardDeck.getTopMost();
+        card.setColor(color);
+
+        setLastPlayedCard(card);
+        gameViewController.setDiscardPileCard(card);
     }
 
     private void setLastPlayedCard(Card card) {

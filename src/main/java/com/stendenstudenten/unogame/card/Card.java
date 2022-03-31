@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class Card {
-    private String color;
+    private final String color;
     private final int symbol;
     private final List<CardEffect> cardEffects;
     private final boolean alwaysMatches;
@@ -15,10 +15,6 @@ public class Card {
         this.symbol = builder.symbol;
         this.cardEffects = Collections.unmodifiableList(builder.cardEffects);
         this.alwaysMatches = builder.alwaysMatches;
-    }
-
-    public void setColor(String color) {
-        this.color = color;
     }
 
     public int getSymbol() {

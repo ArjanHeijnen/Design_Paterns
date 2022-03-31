@@ -32,6 +32,8 @@
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.shape.Ellipse?>
 <?import javafx.scene.shape.Rectangle?>
@@ -42,6 +44,11 @@
    <children>
       <Rectangle fx:id="cardRectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="143.25" stroke="WHITE" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeType="INSIDE" strokeWidth="3.0" width="90.0" />
       <Ellipse fx:id="cardEllipse" fill="WHITE" radiusX="41.25" radiusY="52.5" rotate="30.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="5.0" />
+      <ImageView fx:id="imageMain" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@img/skipB.png" />
+         </image>
+      </ImageView>
       <Text fx:id="cardSymbolMain" fill="DODGERBLUE" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
          <font>
             <Font size="74.0" />
