@@ -22,7 +22,6 @@ public class Card {
     public String getColor() {
         return color;
     }
-
     public CardEffect getCardEffect() {
         return cardEffect;
     }
@@ -69,7 +68,7 @@ public class Card {
 
         public CardBuilder addPickCardColorEffect(String color) {
             this.color = color;
-            cardEffect = new TurnDirectionCardEffect();
+            cardEffect = new PickColorCardEffect();
             setSymbol(13);
             return this;
         }

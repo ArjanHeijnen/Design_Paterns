@@ -6,6 +6,6 @@ public class PickColorCardEffect implements CardEffect {
 
     @Override
     public void execute(Game game) {
-        game.changeCardColour();
+        game.changeLastPlayedCardColor();
     }
 }

@@ -9,15 +9,19 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 public class GameViewController {
 
@@ -178,6 +182,35 @@ public class GameViewController {
         CardViewController controller = loader.getController();
         controller.setFaceDown();
         return cardView;
+    }
+
+    public String showCardColorPicker() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.initStyle(StageStyle.UNDECORATED);
+        alert.resizableProperty().set(false);
+        alert.setTitle("Uno");
+        alert.setContentText("Wild card!");
+        alert.setContentText("Pick a color.");
+        ButtonType buttonRed = new ButtonType("Red");
+        ButtonType buttonGreen = new ButtonType("Green");
+        ButtonType buttonYellow = new ButtonType("Yellow");
+        ButtonType buttonBlue = new ButtonType("Blue");
+        alert.getButtonTypes().setAll(buttonRed, buttonBlue, buttonYellow, buttonGreen);
+        Optional<ButtonType> result = alert.showAndWait();
+        if(result.isEmpty()){
+            throw new RuntimeException("Color picker closed with no result");
+        }
+        if(result.get() == buttonRed){
+            return "#d72600";
+        }else if(result.get() == buttonGreen){
+            return "#379711";
+        }else if(result.get() == buttonYellow){
+            return "#ecd407";
+        }else if(result.get() == buttonBlue){
+            return "#0956bf";
+        }else{
+            throw new RuntimeException("Color picker had invalid result");
+        }
     }
 
     private void onPlayerCardClick(MouseEvent event){

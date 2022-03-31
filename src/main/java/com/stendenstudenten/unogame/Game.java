@@ -8,6 +8,7 @@ import com.stendenstudenten.unogame.player.Player;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 public class Game {
@@ -18,6 +19,7 @@ public class Game {
     boolean gameStart = true;
     private final Deck discardDeck;
     private final Deck drawDeck;
+    private final Random random = new Random();
 
     public Game(GameViewController gameViewController) {
         this.gameViewController = gameViewController;
@@ -129,6 +131,33 @@ public class Game {
         return null;
     }
 
+    public void changeLastPlayedCardColor(){
+        String color;
+        if(activePlayerIndex == 0){
+             color = gameViewController.showCardColorPicker();
+        }else{
+            switch (random.nextInt(4)){
+                case 0:
+                    color = "#d72600";
+                    break;
+                case 1:
+                    color = "#379711";
+                    break;
+                case 2:
+                    color = "#0956bf";
+                    break;
+                case 3:
+                    color = "#ecd407";
+                    break;
+                default:
+                    throw new RuntimeException("this should never happen");
+            }
+            Card card = discardDeck.getTopMost();
+            card.setColor(color);
+            setLastPlayedCard(card);
+        }
+    }
+
     private void setLastPlayedCard(Card card) {
         discardDeck.placeCard(card);
         gameViewController.setDiscardPileCard(card);
@@ -171,13 +200,6 @@ public class Game {
         drawCard(nextPlayer);
         drawCard(nextPlayer);
         drawCard(nextPlayer);
-    }
-
-    public void changeCardColour() {
-        Card card = discardDeck.getTopMost();
-        card.setColor("#d72600");
-//        todo: let pick colour
-        gameViewController.setDiscardPileCard(card);
     }
 
     public void reverseTurnDirection() {
