@@ -1,14 +1,20 @@
 package com.stendenstudenten.unogame.card;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 public class Card {
     private String color;
     private final int symbol;
-    private final CardEffect cardEffect;
+    private final List<CardEffect> cardEffects;
+    private final boolean alwaysMatches;
 
     private Card(CardBuilder builder) {
         this.color = builder.color;
         this.symbol = builder.symbol;
-        this.cardEffect = builder.cardEffect;
+        this.cardEffects = Collections.unmodifiableList(builder.cardEffects);
+        this.alwaysMatches = builder.alwaysMatches;
     }
 
     public void setColor(String color) {
@@ -22,18 +28,19 @@ public class Card {
     public String getColor() {
         return color;
     }
-    public CardEffect getCardEffect() {
-        return cardEffect;
+    public List<CardEffect> getCardEffects() {
+        return cardEffects;
     }
 
     public boolean matches(Card card) {
-        return this.symbol == card.symbol || this.color.equals(card.color);
+        return this.symbol == card.symbol || this.color.equals(card.color) || alwaysMatches;
     }
 
     public static class CardBuilder {
         private String color;
         private int symbol;
-        private CardEffect cardEffect;
+        private List<CardEffect> cardEffects = new ArrayList<>();
+        private boolean alwaysMatches = false;
 
         public CardBuilder setColor(String color) {
             this.color = color;
@@ -45,36 +52,40 @@ public class Card {
             return this;
         }
 
-        public CardBuilder addSkipTurnEffect(String color) {
-            this.color = color;
-            cardEffect = new SkipTurnCardEffect();
-            setSymbol(10);
+        public CardBuilder setAlwaysMatches(boolean alwaysMatches){
+            this.alwaysMatches = alwaysMatches;
             return this;
         }
 
-        public CardBuilder addDrawCardEffect(String color) {
-            this.color = color;
-            cardEffect = new DrawCardsCardEffect();
-            setSymbol(11);
+        public CardBuilder addSkipTurnEffect() {
+            cardEffects.add(new SkipTurnCardEffect());
             return this;
         }
 
-        public CardBuilder addReverseDirectionEffect(String color) {
-            this.color = color;
-            cardEffect = new TurnDirectionCardEffect();
-            setSymbol(12);
+        public CardBuilder addDrawCardEffect() {
+            cardEffects.add(new DrawCardCardEffect());
             return this;
         }
 
-        public CardBuilder addPickCardColorEffect(String color) {
-            this.color = color;
-            cardEffect = new PickColorCardEffect();
-            setSymbol(13);
+        public CardBuilder addReverseDirectionEffect() {
+            cardEffects.add(new TurnDirectionCardEffect());
+            return this;
+        }
+
+        public CardBuilder addPickCardColorEffect() {
+            cardEffects.add(new PickColorCardEffect());
+            return this;
+        }
+
+        public CardBuilder clearEffects(){
+            cardEffects = new ArrayList<>();
             return this;
         }
 
         public Card build() {
-            return new Card(this);
+            Card card = new Card(this);
+            cardEffects = new ArrayList<>(cardEffects);
+            return card;
         }
 
     }

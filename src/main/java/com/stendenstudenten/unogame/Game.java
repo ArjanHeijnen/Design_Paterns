@@ -2,6 +2,7 @@ package com.stendenstudenten.unogame;
 
 
 import com.stendenstudenten.unogame.card.Card;
+import com.stendenstudenten.unogame.card.CardEffect;
 import com.stendenstudenten.unogame.controllers.GameViewController;
 import com.stendenstudenten.unogame.player.Player;
 
@@ -64,15 +65,10 @@ public class Game {
             hand.remove(cardToPlay);
             gameViewController.setStatusText("cards left:" + hand.size());
             gameViewController.setNumberOfCPUCards(hand.size(), activePlayerIndex);
+            executeCardEffects(cardToPlay);
             if (hand.size() <= 0) {
-                if (cardToPlay.getSymbol() >= 10) {
-                    cardToPlay.getCardEffect().execute(this);
-                }
                 selectWinner(players.get(activePlayerIndex).getPlayerName());
             } else {
-                if (cardToPlay.getSymbol() >= 10) {
-                    cardToPlay.getCardEffect().execute(this);
-                }
                 nextTurn();
             }
         }
@@ -87,20 +83,21 @@ public class Game {
             if (playedCard.matches(discardDeck.getTopMost())) {
                 setLastPlayedCard(playedCard);
                 playerHand.remove(cardIndex);
+                executeCardEffects(playedCard);
                 gameViewController.setPlayerCardViews(playerHand);
 
                 if (playerHand.size() <= 0) {
                     selectWinner(players.get(activePlayerIndex).getPlayerName());
-                    if (playedCard.getSymbol() >= 10) {
-                        playedCard.getCardEffect().execute(this);
-                    }
                 } else {
-                    if (playedCard.getSymbol() >= 10) {
-                        playedCard.getCardEffect().execute(this);
-                    }
                     nextTurn();
                 }
             }
+        }
+    }
+
+    private void executeCardEffects(Card card){
+        for (CardEffect effect: card.getCardEffects()) {
+            effect.execute(this);
         }
     }
 
@@ -180,7 +177,7 @@ public class Game {
         doCPUMoves();
     }
 
-    public void draw2CardsEffect() {
+    public void drawCardEffect() {
         int nextPlayer;
         if (turnDirection == TurnDirection.CLOCKWISE) {
             if (activePlayerIndex >= (players.size() - 1)) {
@@ -195,10 +192,6 @@ public class Game {
                 nextPlayer = activePlayerIndex - 1;
             }
         }
-        drawCard(nextPlayer);
-        drawCard(nextPlayer);
-        drawCard(nextPlayer);
-        drawCard(nextPlayer);
         drawCard(nextPlayer);
     }
 
