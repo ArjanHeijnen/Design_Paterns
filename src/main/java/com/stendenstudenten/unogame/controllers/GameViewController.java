@@ -1,8 +1,11 @@
 package com.stendenstudenten.unogame.controllers;
 
+import com.stendenstudenten.unogame.Game;
 import com.stendenstudenten.unogame.GameApplication;
 import com.stendenstudenten.unogame.TurnDirection;
 import com.stendenstudenten.unogame.card.Card;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
@@ -13,6 +16,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
 
 public class GameViewController {
@@ -33,8 +37,10 @@ public class GameViewController {
     private Text TurnText;
     @FXML
     private Text TurnDirText;
+    @FXML
+    private Text StatusText;
 
-
+    private Game game;
 
 
     @FXML
@@ -48,24 +54,11 @@ public class GameViewController {
         DrawPileCard.getChildren().clear();
 
         DrawPileCard.getChildren().add(loadFaceDownCardView());
+        DrawPileCard.addEventFilter(MouseEvent.MOUSE_CLICKED, this::onDrawPileClick);
+        setTurnDirText(TurnDirection.CLOCKWISE);
+        setTurnText(0);
 
-        setTurnDirText(TurnDirection.COUNTERCLOCKWISE);
-        setTurnText(2);
-
-        addPlayerCardView(new Card("#99ff00", 5));
-        addPlayerCardView(new Card("#99ff00", 3));
-        addPlayerCardView(new Card("#99ff00", 2));
-        addPlayerCardView(new Card("#99ff00", 0));
-        addPlayerCardView(new Card("#99ff00", 2));
-
-        setDiscardPileCard(new Card("#99ff00", 2));
-
-        setNumberOfCPUCards(3, 1);
-        setNumberOfCPUCards(6, 2);
-        setNumberOfCPUCards(1, 3);
-
-
-        /*game = new Game();
+        game = new Game(this);
         game.addPlayer("player");
         game.addPlayer("CPU1");
         game.addPlayer("CPU2");
@@ -74,7 +67,7 @@ public class GameViewController {
             game.startGame();
         } catch (IOException e) {
             throw new RuntimeException(e);
-        }*/
+        }
     }
 
     private void setTurnDirText(TurnDirection direction){
@@ -99,11 +92,14 @@ public class GameViewController {
         TurnText.textProperty().set(text);
     }
 
-    private void addPlayerCardView(Card card){
-        PlayerHandPanel.getChildren().add(loadFaceUpCardView(card));
+    public void setPlayerCardViews(List<Card> playerHand){
+        PlayerHandPanel.getChildren().clear();
+        for (Card card: playerHand){
+            PlayerHandPanel.getChildren().add(loadFaceUpCardView(card));
+        }
     }
 
-    private void setNumberOfCPUCards(int amount, int playerIndex){
+    public void setNumberOfCPUCards(int amount, int playerIndex){
         Group group;
         int rotation;
         boolean hasXOffset;
@@ -143,13 +139,17 @@ public class GameViewController {
         }
     }
 
-    private void setDiscardPileCard(Card card){
+    public void setDiscardPileCard(Card card){
         DiscardPileCard.getChildren().clear();
         DiscardPileCard.getChildren().add(loadFaceUpCardView(card));
     }
 
-    private void setDrawPileVisible(boolean isVisible){
+    public void setDrawPileVisible(boolean isVisible){
         DrawPileCard.setVisible(isVisible);
+    }
+
+    public void setStatusText(String text) {
+        StatusText.textProperty().set(text);
     }
 
     private Pane loadFaceUpCardView(Card card){
@@ -183,6 +183,12 @@ public class GameViewController {
     private void onPlayerCardClick(MouseEvent event){
         StackPane clickedCardView = (StackPane) event.getSource();
         int i = PlayerHandPanel.getChildren().indexOf(clickedCardView);
-        System.out.println(i);
+        if(i >= 0){
+            game.doPlayerMove(i);
+        }
+    }
+
+    private void onDrawPileClick(MouseEvent event){
+      game.drawCard(0);
     }
 }

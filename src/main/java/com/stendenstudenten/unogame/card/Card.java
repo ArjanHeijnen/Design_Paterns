@@ -1,5 +1,6 @@
 package com.stendenstudenten.unogame.card;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -13,8 +14,6 @@ public class Card {
         this.symbol = builder.symbol;
         this.cardEffects = Collections.unmodifiableList(builder.cardEffects);
     }
-
-
     public int getSymbol() {
         return symbol;
     }
@@ -22,10 +21,14 @@ public class Card {
         return color;
     }
 
+    public boolean matches(Card card){
+        return this.symbol == card.symbol || this.color.equals(card.color);
+    }
+
     public static class CardBuilder {
         private String color;
         private int symbol;
-        private List<CardEffect> cardEffects;
+        private List<CardEffect> cardEffects = new ArrayList<>();
 
         public CardBuilder setColor(String color){
             this.color = color;

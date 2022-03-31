@@ -26,14 +26,14 @@ public class CardViewController {
         cardSymbolBR.setVisible(true);
         cardSymbolTL.setVisible(true);
 
-        cardRectangle.setFill(Paint.valueOf(card.getColour()));
-        cardSymbolMain.setFill(Paint.valueOf(card.getColour()));
+        cardRectangle.setFill(Paint.valueOf(card.getColor()));
+        cardSymbolMain.setFill(Paint.valueOf(card.getColor()));
         cardEllipse.setFill(Paint.valueOf("#ffffff"));
         cardEllipse.setStrokeWidth(0);
 
-        cardSymbolMain.setText(String.valueOf(card.getNumber()));
-        cardSymbolBR.setText(String.valueOf(card.getNumber()));
-        cardSymbolTL.setText(String.valueOf(card.getNumber()));
+        cardSymbolMain.setText(String.valueOf(card.getSymbol()));
+        cardSymbolBR.setText(String.valueOf(card.getSymbol()));
+        cardSymbolTL.setText(String.valueOf(card.getSymbol()));
     }
 
     public void setFaceDown(){

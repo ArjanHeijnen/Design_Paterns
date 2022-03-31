@@ -96,6 +96,15 @@
                   </Text>
                </children>
             </HBox>
+            <HBox alignment="TOP_CENTER">
+               <children>
+                  <Text fx:id="StatusText" strokeType="OUTSIDE" strokeWidth="0.0">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
+               </children>
+            </HBox>
          </children>
       </VBox>
       <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnSpan="3" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2">
