@@ -4,14 +4,12 @@ import com.stendenstudenten.unogame.Game;
 import com.stendenstudenten.unogame.GameApplication;
 import com.stendenstudenten.unogame.TurnDirection;
 import com.stendenstudenten.unogame.card.Card;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -38,11 +36,11 @@ public class GameViewController {
     @FXML
     private Pane DrawPileCard;
     @FXML
-    private Text TurnText;
-    @FXML
     private Text TurnDirText;
     @FXML
     private Text StatusText;
+    @FXML
+    private Button nextTurnButton;
 
     private Game game;
 
@@ -59,8 +57,8 @@ public class GameViewController {
 
         DrawPileCard.getChildren().add(loadFaceDownCardView());
         DrawPileCard.addEventFilter(MouseEvent.MOUSE_CLICKED, this::onDrawPileClick);
+        nextTurnButton.addEventFilter(MouseEvent.MOUSE_CLICKED, this::onNextTurnButtonClick);
         setTurnDirText(TurnDirection.CLOCKWISE);
-        setTurnText(0);
 
         game = new Game(this);
         game.addPlayer("player");
@@ -82,18 +80,6 @@ public class GameViewController {
             default -> throw new IllegalArgumentException();
         }
         TurnDirText.textProperty().set(text);
-    }
-
-    private void setTurnText(int turnIndex){
-        String text;
-        switch (turnIndex){
-            case 0 -> text = "Player";
-            case 1 -> text = "CPU 1";
-            case 2 -> text = "CPU 2";
-            case 3 -> text = "CPU 3";
-            default -> throw new IndexOutOfBoundsException();
-        }
-        TurnText.textProperty().set(text);
     }
 
     public void setPlayerCardViews(List<Card> playerHand){
@@ -217,11 +203,13 @@ public class GameViewController {
         StackPane clickedCardView = (StackPane) event.getSource();
         int i = PlayerHandPanel.getChildren().indexOf(clickedCardView);
         if(i >= 0){
-            game.doPlayerMove(i);
+            game.tryPlayCard(i);
         }
     }
 
     private void onDrawPileClick(MouseEvent event){
-      game.drawCard(0);
+      game.tryDrawCard();
     }
+
+    private void onNextTurnButtonClick(MouseEvent event){game.nextTurn();}
 }

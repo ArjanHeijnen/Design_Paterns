@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
 
 public class Game {
     GameViewController gameViewController;
@@ -21,6 +20,7 @@ public class Game {
     private final Deck discardDeck;
     private final Deck drawDeck;
     private final Random random = new Random();
+    private boolean playedCardThisTurn = false;
 
     public Game(GameViewController gameViewController) {
         this.gameViewController = gameViewController;
@@ -31,53 +31,67 @@ public class Game {
 
     public void startGame() throws IOException {
         shareStartCards(7);
-        doCPUMoves();
+        gameViewController.setStatusText("It's your turn!");
     }
 
     private void doCPUMoves() {
         if (activePlayerIndex != 0) {
-            gameViewController.setStatusText("its CPU turn:" + activePlayerIndex);
-            List<Card> hand = players.get(activePlayerIndex).getCardsInHand();
+            Player player = players.get(activePlayerIndex);
+            int cardsDrawn = 0;
+            List<Card> hand = player.getCardsInHand();
             Card cardToPlay = null;
             for (Card card : hand) {
                 if (card.matches(discardDeck.getTopMost())) {
                     cardToPlay = card;
-                    gameViewController.setStatusText("found a card!");
                     break;
                 }
             }
 
             while (cardToPlay == null) {
-                gameViewController.setStatusText("cards left:" + hand.size());
                 gameViewController.setNumberOfCPUCards(hand.size(), activePlayerIndex);
                 Card drawnCard = drawCard(activePlayerIndex);
+                cardsDrawn++;
                 if (drawnCard == null) {
-                    nextTurn();
+                    playedCardThisTurn = true;
                     return;
                 }
                 if (drawnCard.matches(discardDeck.getTopMost())) {
                     cardToPlay = drawnCard;
-                    gameViewController.setStatusText("found a card!");
                 }
             }
 
             setLastPlayedCard(cardToPlay);
             hand.remove(cardToPlay);
-            gameViewController.setStatusText("cards left:" + hand.size());
+            if(cardsDrawn > 0){
+                gameViewController.setStatusText(player.getPlayerName() + " played a card after drawing " + cardsDrawn + " cards.");
+            }else{
+                if(hand.size() == 1){
+                    gameViewController.setStatusText("UNO! " + player.getPlayerName() + " has one card left!");
+                }else{
+                    gameViewController.setStatusText(player.getPlayerName() + " played a card.");
+                }
+            }
+
             gameViewController.setNumberOfCPUCards(hand.size(), activePlayerIndex);
+            gameViewController.setDiscardPileCard(discardDeck.getTopMost());
             executeCardEffects(cardToPlay);
             if (hand.size() <= 0) {
-                selectWinner(players.get(activePlayerIndex).getPlayerName());
+                selectWinner(player.getPlayerName());
             } else {
-                nextTurn();
+                playedCardThisTurn = true;
             }
         }
     }
 
-    public void doPlayerMove(int cardIndex) {
-        if (activePlayerIndex == 0) {
-            gameViewController.setStatusText("its players turn" + activePlayerIndex);
-            List<Card> playerHand = players.get(activePlayerIndex).getCardsInHand();
+    public void tryPlayCard(int cardIndex) {
+        if(activePlayerIndex != 0){
+            gameViewController.setStatusText("It's not your turn yet!");
+            return;
+        }else if(playedCardThisTurn){
+            gameViewController.setStatusText("You already played a card this turn!");
+            return;
+        }
+            List<Card> playerHand = players.get(0).getCardsInHand();
             Card playedCard = playerHand.get(cardIndex);
 
             if (playedCard.matches(discardDeck.getTopMost())) {
@@ -87,12 +101,17 @@ public class Game {
                 gameViewController.setPlayerCardViews(playerHand);
 
                 if (playerHand.size() <= 0) {
-                    selectWinner(players.get(activePlayerIndex).getPlayerName());
-                } else {
-                    nextTurn();
+                    selectWinner(players.get(0).getPlayerName());
                 }
+                    if(playerHand.size() == 1) {
+                        gameViewController.setStatusText("UNO! You have one card left!");
+                    }else {
+                        gameViewController.setStatusText("You play a card.");
+                    }
+                    playedCardThisTurn = true;
+            }else{
+                gameViewController.setStatusText("You can't play that card.");
             }
-        }
     }
 
     private void executeCardEffects(Card card){
@@ -101,9 +120,19 @@ public class Game {
         }
     }
 
+    public void tryDrawCard(){
+        if(activePlayerIndex != 0) {
+            gameViewController.setStatusText("You can only draw a card on your own turn!");
+        }else if(playedCardThisTurn){
+            gameViewController.setStatusText("You can't draw after playing a card!");
+        }else{
+            drawCard(0);
+        }
+    }
+
     public Card drawCard(int playerIndex) {
         if (activePlayerIndex == playerIndex && gameStart) {
-            gameViewController.setStatusText("drawing card...");
+            gameViewController.setStatusText("You draw a card.");
             Player player = players.get(playerIndex);
             Card drawnCard = drawDeck.getRandom();
             if (drawnCard != null) {
@@ -161,6 +190,11 @@ public class Game {
     }
 
     public void nextTurn() {
+        if (!playedCardThisTurn) {
+            gameViewController.setStatusText("You still need to play a card!");
+            return;
+        }
+        playedCardThisTurn = false;
         if (turnDirection == TurnDirection.CLOCKWISE) {
             if (activePlayerIndex >= (players.size() - 1)) {
                 activePlayerIndex = 0;
@@ -174,7 +208,11 @@ public class Game {
                 activePlayerIndex--;
             }
         }
-        doCPUMoves();
+        if (activePlayerIndex != 0) {
+            doCPUMoves();
+        }else{
+            gameViewController.setStatusText("It's your turn!");
+        }
     }
 
     public void drawCardEffect() {

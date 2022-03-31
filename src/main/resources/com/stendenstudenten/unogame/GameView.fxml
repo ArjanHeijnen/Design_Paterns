@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Group?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -18,9 +19,9 @@
       <ColumnConstraints hgrow="SOMETIMES" minWidth="200.0" percentWidth="33.333333" />
    </columnConstraints>
    <rowConstraints>
-      <RowConstraints maxHeight="242.66" minHeight="242.66" prefHeight="242.66" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="242.66" minHeight="242.66" prefHeight="242.66" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="242.66" minHeight="242.66" prefHeight="242.66" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="217.66" minHeight="217.66" prefHeight="217.66" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="217.66" minHeight="217.66" prefHeight="217.66" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="292.66" minHeight="292.66" prefHeight="292.66" vgrow="SOMETIMES" />
    </rowConstraints>
    <children>
       <VBox fx:id="CPU3HandPanel" alignment="CENTER_RIGHT" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
@@ -70,20 +71,6 @@
             </Text>
             <HBox alignment="TOP_CENTER">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Turn: ">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Text>
-                  <Text fx:id="TurnText" strokeType="OUTSIDE" strokeWidth="0.0" text=" Player">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Text>
-               </children>
-            </HBox>
-            <HBox alignment="TOP_CENTER">
-               <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Direction: ">
                      <font>
                         <Font size="18.0" />
@@ -96,19 +83,21 @@
                   </Text>
                </children>
             </HBox>
-            <HBox alignment="TOP_CENTER">
-               <children>
-                  <Text fx:id="StatusText" strokeType="OUTSIDE" strokeWidth="0.0">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Text>
-               </children>
-            </HBox>
+            <HBox alignment="TOP_CENTER" />
          </children>
       </VBox>
-      <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnSpan="3" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2">
+      <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0" GridPane.columnSpan="3" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2">
          <children>
+            <Text fx:id="StatusText" strokeType="OUTSIDE" strokeWidth="0.0">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
+            <Button fx:id="nextTurnButton" alignment="CENTER" mnemonicParsing="false" text="Next Turn">
+               <font>
+                  <Font size="17.0" />
+               </font>
+            </Button>
             <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefHeight="200.0">
                <content>
                   <HBox fx:id="PlayerHandPanel" alignment="CENTER_LEFT" maxWidth="-Infinity" minHeight="-Infinity">
