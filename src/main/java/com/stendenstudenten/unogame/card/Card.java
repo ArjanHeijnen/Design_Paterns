@@ -33,7 +33,7 @@ public class Card {
     }
 
     public boolean matches(Card card) {
-        return this.symbol == card.symbol || this.color.equals(card.color) || alwaysMatches;
+        return this.symbol == card.symbol || this.color.equals(card.color) || alwaysMatches || card.alwaysMatches;
     }
 
     public static class CardBuilder {
