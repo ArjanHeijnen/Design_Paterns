@@ -6,16 +6,15 @@ import com.stendenstudenten.unogame.card.CardEffect;
 import com.stendenstudenten.unogame.controllers.GameViewController;
 import com.stendenstudenten.unogame.player.Player;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
 public class Game {
-    GameViewController gameViewController;
+    final GameViewController gameViewController;
     private int activePlayerIndex = 0;
-    private final List<Player> players = new ArrayList<Player>();
+    private final List<Player> players = new ArrayList<>();
     private TurnDirection turnDirection = TurnDirection.CLOCKWISE;
     boolean gameStart = true;
     private final Deck discardDeck;
@@ -35,8 +34,8 @@ public class Game {
         drawDeck.getCards().remove(drawDeck.getCardsLeft() - 1);
     }
 
-    public void startGame() throws IOException {
-        shareStartCards(7);
+    public void startGame() {
+        shareStartCards();
         gameViewController.setStatusText("It's your turn!");
     }
 
@@ -194,22 +193,13 @@ public class Game {
         if(activePlayerIndex == 0){
              color = gameViewController.showCardColorPicker();
         }else{
-            switch (random.nextInt(4)){
-                case 0:
-                    color = "#d72600";
-                    break;
-                case 1:
-                    color = "#379711";
-                    break;
-                case 2:
-                    color = "#0956bf";
-                    break;
-                case 3:
-                    color = "#ecd407";
-                    break;
-                default:
-                    throw new RuntimeException("this should never happen");
-            }
+            color = switch (random.nextInt(4)) {
+                case 0 -> "#d72600";
+                case 1 -> "#379711";
+                case 2 -> "#0956bf";
+                case 3 -> "#ecd407";
+                default -> throw new RuntimeException("this should never happen");
+            };
         }
         wildColor = color;
         System.out.println("set wild to:" + color);
@@ -304,9 +294,9 @@ public class Game {
         return  card.alwaysMatches() || wildColor != null && Objects.equals(card.getColor(), wildColor) || wildColor == null && card.matches(discardDeck.getTopMost());
     }
 
-    private void shareStartCards(int startAmount) {
+    private void shareStartCards() {
         for (int i = 0; i < players.size(); i++) {
-            for (int p = 0; p < startAmount; p++) {
+            for (int p = 0; p < 7; p++) {
                 Player player = players.get(i);
                 Card c = drawDeck.getRandom();
                 player.addCardToHand(c);

@@ -9,7 +9,6 @@ import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
-import java.net.URL;
 import java.util.Objects;
 
 public class CardViewController {

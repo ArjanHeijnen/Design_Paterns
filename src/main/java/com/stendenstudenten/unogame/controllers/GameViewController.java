@@ -60,8 +60,8 @@ public class GameViewController {
         DrawPileCard.getChildren().clear();
 
         DrawPileCard.getChildren().add(loadFaceDownCardView());
-        DrawPileCard.addEventFilter(MouseEvent.MOUSE_CLICKED, this::onDrawPileClick);
-        nextTurnButton.addEventFilter(MouseEvent.MOUSE_CLICKED, this::onNextTurnButtonClick);
+        DrawPileCard.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> onDrawPileClick());
+        nextTurnButton.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> onNextTurnButtonClick());
         setTurnDirText(TurnDirection.CLOCKWISE);
         wildIndicator.setVisible(false);
 
@@ -70,11 +70,7 @@ public class GameViewController {
         game.addPlayer("CPU1");
         game.addPlayer("CPU2");
         game.addPlayer("CPU3");
-        try {
-            game.startGame();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        game.startGame();
     }
 
     public void setWildIndicator(String color){
@@ -221,9 +217,9 @@ public class GameViewController {
         }
     }
 
-    private void onDrawPileClick(MouseEvent event){
+    private void onDrawPileClick(){
       game.tryDrawCard();
     }
 
-    private void onNextTurnButtonClick(MouseEvent event){game.nextTurn();}
+    private void onNextTurnButtonClick(){game.nextTurn();}
 }

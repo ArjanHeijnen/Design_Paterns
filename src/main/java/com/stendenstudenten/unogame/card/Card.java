@@ -36,6 +36,7 @@ public class Card {
         return this.alwaysMatches;
     }
 
+    @SuppressWarnings("UnusedReturnValue")
     public static class CardBuilder {
         private String color;
         private int symbol;
