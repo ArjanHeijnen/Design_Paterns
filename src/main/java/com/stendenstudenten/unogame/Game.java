@@ -23,6 +23,7 @@ public class Game {
     private final Random random = new Random();
     private boolean playedCardThisTurn = false;
     private String wildColor = null;
+    private boolean skipNextTurn = false;
 
     public Game(GameViewController gameViewController) {
         this.gameViewController = gameViewController;
@@ -49,7 +50,6 @@ public class Game {
                     break;
                 }
             }
-
             while (cardToPlay == null) {
                 gameViewController.setNumberOfCPUCards(hand.size(), activePlayerIndex);
                 Card drawnCard = drawCard(activePlayerIndex);
@@ -204,17 +204,23 @@ public class Game {
             return;
         }
         playedCardThisTurn = false;
+
+        int amountToMove = 1;
+        if(skipNextTurn){
+            amountToMove = 2;
+            skipNextTurn = false;
+        }
         if (turnDirection == TurnDirection.CLOCKWISE) {
-            if (activePlayerIndex >= (players.size() - 1)) {
-                activePlayerIndex = 0;
+            if (activePlayerIndex + amountToMove > (players.size() - 1)) {
+                activePlayerIndex = amountToMove - ((players.size() - 1) - activePlayerIndex) - 1;
             } else {
-                activePlayerIndex++;
+                activePlayerIndex += amountToMove;
             }
         } else {
-            if (activePlayerIndex <= 0) {
-                activePlayerIndex = players.size() - 1;
+            if (activePlayerIndex - amountToMove < 0) {
+                activePlayerIndex = players.size() - (amountToMove - activePlayerIndex);
             } else {
-                activePlayerIndex--;
+                activePlayerIndex -= amountToMove;
             }
         }
         if (activePlayerIndex != 0) {
@@ -222,6 +228,10 @@ public class Game {
         }else{
             gameViewController.setStatusText("It's your turn!");
         }
+    }
+
+    public void skipNextTurn(){
+        skipNextTurn = true;
     }
 
     public void drawCardEffect() {
