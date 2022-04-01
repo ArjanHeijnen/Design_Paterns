@@ -32,30 +32,39 @@
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.shape.Ellipse?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.stendenstudenten.unogame.controllers.CardViewController">
-   <children>
-      <Rectangle fx:id="cardRectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="143.25" stroke="WHITE" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeType="INSIDE" strokeWidth="3.0" width="90.0" />
-      <Ellipse fx:id="cardEllipse" fill="WHITE" radiusX="41.25" radiusY="52.5" rotate="30.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="5.0" />
-      <Text fx:id="cardSymbolMain" fill="DODGERBLUE" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
-         <font>
-            <Font size="74.0" />
-         </font>
-      </Text>
-      <Text fx:id="cardSymbolBR" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="0" translateX="30.0" translateY="50.0">
-         <font>
-            <Font size="20.0" />
-         </font>
-      </Text>
-      <Text fx:id="cardSymbolTL" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="0" translateX="-30.0" translateY="-50.0">
-         <font>
-            <Font size="20.0" />
-         </font>
-      </Text>
-   </children>
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+           xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="com.stendenstudenten.unogame.controllers.CardViewController">
+   <Rectangle fx:id="cardRectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="143.25" stroke="WHITE"
+              strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeType="INSIDE" strokeWidth="3.0" width="90.0"/>
+   <Ellipse fx:id="cardEllipse" fill="WHITE" radiusX="41.25" radiusY="52.5" rotate="30.0" stroke="WHITE"
+            strokeType="INSIDE" strokeWidth="5.0"/>
+   <ImageView fx:id="imageMain" pickOnBounds="true" preserveRatio="true">
+      <Image url="@img/skipB.png"/>
+   </ImageView>
+   <Text fx:id="cardSymbolMain" fill="DODGERBLUE" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
+      <font>
+         <Font size="74.0"/>
+      </font>
+   </Text>
+   <Text fx:id="cardSymbolBR" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="0" translateX="30.0"
+         translateY="50.0">
+      <font>
+         <Font size="20.0"/>
+      </font>
+   </Text>
+   <Text fx:id="cardSymbolTL" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="0" translateX="-30.0"
+         translateY="-50.0">
+      <font>
+         <Font size="20.0"/>
+      </font>
+   </Text>
 </StackPane>

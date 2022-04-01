@@ -6,6 +6,7 @@ public class SkipTurnCardEffect implements CardEffect {
 
     @Override
     public void execute(Game game) {
-        game.nextTurn();
+        System.out.println("Executing skip turn effect!");
+        game.skipNextTurn();
     }
 }

@@ -11,7 +11,13 @@ public class Deck {
     private List<Card> cards = new ArrayList<>();
     private final Random random = new Random();
 
-    public Deck() {
+    //special card symbols: 10 wild, 11 wild +4, 12 skip, 13 reverse, 14 +2
+    //1 zero card per color
+    //2 of every other number per color
+    //2 of skip, reverse and +2 cards per color
+    //4 wild cards
+    //4 wild +4 cards
+    public void populate() {
         Card.CardBuilder builder = new Card.CardBuilder();
         for (int c = 0; c < 4; c++) {
             String color;
@@ -22,22 +28,41 @@ public class Deck {
                 case 3 -> color = "#ecd407";
                 default -> throw new RuntimeException();
             }
-            builder.setColor(color);
-            for (int n = 1; n <= 9; n++) {
+
+            builder.setColor(color).clearEffects();
+            for (int n = 0; n <= 9; n++) {
                 builder.setSymbol(n);
                 cards.add(builder.build());
-            }
-            for (int e = 0; e <= 3; e++) {
-                switch (c) {
-                    case 0 -> builder.addSkipTurnEffect(color);
-                    case 1 -> builder.addDrawCardEffect(color);
-                    case 2 -> builder.addReverseDirectionEffect(color);
-                    case 3 -> builder.addPickCardColorEffect(color);
-                    default -> throw new RuntimeException();
+                if(n > 0){
+                    //add second card
+                    cards.add(builder.build());
                 }
-                cards.add(builder.build());
             }
+            //add colored action cards
+            builder.setSymbol(12).addSkipTurnEffect();
+            cards.add(builder.build());
+            cards.add(builder.build());
+
+            builder.clearEffects().setSymbol(13).addReverseDirectionEffect();
+            cards.add(builder.build());
+            cards.add(builder.build());
+            builder.clearEffects().setSymbol(14).addDrawCardEffect().addDrawCardEffect();
+            cards.add(builder.build());
+            cards.add(builder.build());
+
         }
+        //add wild cards
+        builder.setAlwaysMatches(true);
+        builder.clearEffects().setSymbol(10).setColor("#000000").addPickCardColorEffect();
+        cards.add(builder.build());
+        cards.add(builder.build());
+        cards.add(builder.build());
+        cards.add(builder.build());
+        builder.setSymbol(11).addDrawCardEffect().addDrawCardEffect().addDrawCardEffect().addDrawCardEffect();
+        cards.add(builder.build());
+        cards.add(builder.build());
+        cards.add(builder.build());
+        cards.add(builder.build());
     }
 
     public Card getRandom() {

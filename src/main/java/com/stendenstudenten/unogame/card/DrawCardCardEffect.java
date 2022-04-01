@@ -2,10 +2,11 @@ package com.stendenstudenten.unogame.card;
 
 import com.stendenstudenten.unogame.Game;
 
-public class DrawCardsCardEffect implements CardEffect {
+public class DrawCardCardEffect implements CardEffect {
 
     @Override
     public void execute(Game game) {
-        game.draw2CardsEffect();
+        System.out.println("Executing draw card effect!");
+        game.addForceDraw();
     }
 }

@@ -4,20 +4,24 @@ import com.stendenstudenten.unogame.Game;
 import com.stendenstudenten.unogame.GameApplication;
 import com.stendenstudenten.unogame.TurnDirection;
 import com.stendenstudenten.unogame.card.Card;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
-import javafx.scene.control.Label;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Paint;
+import javafx.scene.shape.Ellipse;
 import javafx.scene.text.Text;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 public class GameViewController {
 
@@ -34,11 +38,13 @@ public class GameViewController {
     @FXML
     private Pane DrawPileCard;
     @FXML
-    private Text TurnText;
-    @FXML
     private Text TurnDirText;
     @FXML
     private Text StatusText;
+    @FXML
+    private Button nextTurnButton;
+    @FXML
+    private Ellipse wildIndicator;
 
     private Game game;
 
@@ -54,19 +60,25 @@ public class GameViewController {
         DrawPileCard.getChildren().clear();
 
         DrawPileCard.getChildren().add(loadFaceDownCardView());
-        DrawPileCard.addEventFilter(MouseEvent.MOUSE_CLICKED, this::onDrawPileClick);
+        DrawPileCard.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> onDrawPileClick());
+        nextTurnButton.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> onNextTurnButtonClick());
         setTurnDirText(TurnDirection.CLOCKWISE);
-        setTurnText(0);
+        wildIndicator.setVisible(false);
 
         game = new Game(this);
         game.addPlayer("player");
         game.addPlayer("CPU1");
         game.addPlayer("CPU2");
         game.addPlayer("CPU3");
-        try {
-            game.startGame();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        game.startGame();
+    }
+
+    public void setWildIndicator(String color){
+        if(color != null){
+            wildIndicator.setFill(Paint.valueOf(color));
+            wildIndicator.setVisible(true);
+        }else{
+            wildIndicator.setVisible(false);
         }
     }
 
@@ -78,18 +90,6 @@ public class GameViewController {
             default -> throw new IllegalArgumentException();
         }
         TurnDirText.textProperty().set(text);
-    }
-
-    private void setTurnText(int turnIndex){
-        String text;
-        switch (turnIndex){
-            case 0 -> text = "Player";
-            case 1 -> text = "CPU 1";
-            case 2 -> text = "CPU 2";
-            case 3 -> text = "CPU 3";
-            default -> throw new IndexOutOfBoundsException();
-        }
-        TurnText.textProperty().set(text);
     }
 
     public void setPlayerCardViews(List<Card> playerHand){
@@ -180,15 +180,46 @@ public class GameViewController {
         return cardView;
     }
 
+    public String showCardColorPicker() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.initStyle(StageStyle.UNDECORATED);
+        alert.resizableProperty().set(false);
+        alert.setTitle("Uno");
+        alert.setContentText("Wild card!");
+        alert.setContentText("Pick a color.");
+        ButtonType buttonRed = new ButtonType("Red");
+        ButtonType buttonGreen = new ButtonType("Green");
+        ButtonType buttonYellow = new ButtonType("Yellow");
+        ButtonType buttonBlue = new ButtonType("Blue");
+        alert.getButtonTypes().setAll(buttonRed, buttonBlue, buttonYellow, buttonGreen);
+        Optional<ButtonType> result = alert.showAndWait();
+        if(result.isEmpty()){
+            throw new RuntimeException("Color picker closed with no result");
+        }
+        if(result.get() == buttonRed){
+            return "#d72600";
+        }else if(result.get() == buttonGreen){
+            return "#379711";
+        }else if(result.get() == buttonYellow){
+            return "#ecd407";
+        }else if(result.get() == buttonBlue){
+            return "#0956bf";
+        }else{
+            throw new RuntimeException("Color picker had invalid result");
+        }
+    }
+
     private void onPlayerCardClick(MouseEvent event){
         StackPane clickedCardView = (StackPane) event.getSource();
         int i = PlayerHandPanel.getChildren().indexOf(clickedCardView);
         if(i >= 0){
-            game.doPlayerMove(i);
+            game.tryPlayCard(i);
         }
     }
 
-    private void onDrawPileClick(MouseEvent event){
-      game.drawCard(0);
+    private void onDrawPileClick(){
+      game.tryDrawCard();
     }
+
+    private void onNextTurnButtonClick(){game.nextTurn();}
 }
