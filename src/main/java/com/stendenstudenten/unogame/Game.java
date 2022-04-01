@@ -30,7 +30,9 @@ public class Game {
         this.gameViewController = gameViewController;
         drawDeck = new Deck();
         discardDeck = new Deck();
-        setLastPlayedCard(drawDeck.getRandom());
+        drawDeck.populate();
+        setLastPlayedCard(drawDeck.getTopMost());
+        drawDeck.getCards().remove(drawDeck.getCardsLeft() - 1);
     }
 
     public void startGame() throws IOException {
@@ -172,9 +174,12 @@ public class Game {
             } else {
                 gameViewController.setNumberOfCPUCards(player.getCardsInHand().size(), playerIndex);
             }
+            System.out.println("cards left in draw pile: " + drawDeck.getCardsLeft());
+            System.out.println("cards in discard " + discardDeck.getCardsLeft());
             if (drawDeck.getCardsLeft() <= 0) {
                 //reshuffle discard pile to draw pile
                 reshufflePiles();
+                System.out.println("Pile shuffled");
                 if (drawDeck.getCards().size() <= 0) {
                     return null;
                 }

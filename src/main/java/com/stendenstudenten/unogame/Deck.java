@@ -17,7 +17,7 @@ public class Deck {
     //2 of skip, reverse and +2 cards per color
     //4 wild cards
     //4 wild +4 cards
-    public Deck() {
+    public void populate() {
         Card.CardBuilder builder = new Card.CardBuilder();
         for (int c = 0; c < 4; c++) {
             String color;
