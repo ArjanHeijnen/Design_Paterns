@@ -78,7 +78,7 @@ public class Card {
         }
 
         public CardBuilder clearEffects(){
-            cardEffects = new ArrayList<>();
+            cardEffects.clear();
             return this;
         }
 

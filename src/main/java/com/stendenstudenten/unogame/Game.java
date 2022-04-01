@@ -191,7 +191,6 @@ public class Game {
     private void clearWildColor(){
         wildColor = null;
         gameViewController.setWildIndicator(null);
-        System.out.println("wild cleared");
     }
 
     private void setLastPlayedCard(Card card) {
