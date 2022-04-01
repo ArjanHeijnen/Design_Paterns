@@ -24,6 +24,7 @@ public class Game {
     private boolean playedCardThisTurn = false;
     private String wildColor = null;
     private boolean skipNextTurn = false;
+    private int forceDraw = 0;
 
     public Game(GameViewController gameViewController) {
         this.gameViewController = gameViewController;
@@ -42,6 +43,13 @@ public class Game {
             Player player = players.get(activePlayerIndex);
             int cardsDrawn = 0;
             List<Card> hand = player.getCardsInHand();
+
+            while(forceDraw > 0){
+                drawCard(activePlayerIndex);
+                cardsDrawn++;
+                forceDraw--;
+            }
+
             Card cardToPlay = null;
             for (Card card : hand) {
                 if (canBePlayed(card)){
@@ -90,7 +98,10 @@ public class Game {
         if(activePlayerIndex != 0){
             gameViewController.setStatusText("It's not your turn yet!");
             return;
-        }else if(playedCardThisTurn){
+        }else if(forceDraw > 0){
+            gameViewController.setStatusText("You need to draw " + forceDraw + " cards first.");
+            return;
+        } else if(playedCardThisTurn){
             gameViewController.setStatusText("You already played a card this turn!");
             return;
         }
@@ -131,12 +142,24 @@ public class Game {
             gameViewController.setStatusText("You can't draw after playing a card!");
         }else{
             drawCard(0);
+            if(forceDraw > 0){
+                forceDraw--;
+            }
+            if(forceDraw > 0){
+                gameViewController.setStatusText("You still need to draw " + forceDraw + " more cards.");
+            }else{
+                gameViewController.setStatusText("You draw a card.");
+            }
         }
+    }
+
+    public void addForceDraw(){
+        forceDraw++;
     }
 
     public Card drawCard(int playerIndex) {
         if (activePlayerIndex == playerIndex && gameStart) {
-            gameViewController.setStatusText("You draw a card.");
+
             Player player = players.get(playerIndex);
             Card drawnCard = drawDeck.getRandom();
             if (drawnCard != null) {
@@ -232,24 +255,6 @@ public class Game {
 
     public void skipNextTurn(){
         skipNextTurn = true;
-    }
-
-    public void drawCardEffect() {
-        int nextPlayer;
-        if (turnDirection == TurnDirection.CLOCKWISE) {
-            if (activePlayerIndex >= (players.size() - 1)) {
-                nextPlayer = 0;
-            } else {
-                nextPlayer = activePlayerIndex + 1;
-            }
-        } else {
-            if (activePlayerIndex <= 0) {
-                nextPlayer = players.size() - 1;
-            } else {
-                nextPlayer = activePlayerIndex - 1;
-            }
-        }
-        drawCard(nextPlayer);
     }
 
     public void reverseTurnDirection() {

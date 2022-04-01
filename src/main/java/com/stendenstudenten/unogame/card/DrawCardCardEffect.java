@@ -7,6 +7,6 @@ public class DrawCardCardEffect implements CardEffect {
     @Override
     public void execute(Game game) {
         System.out.println("Executing draw card effect!");
-        game.drawCardEffect();
+        game.addForceDraw();
     }
 }
