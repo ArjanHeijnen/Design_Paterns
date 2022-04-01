@@ -9,6 +9,7 @@ import com.stendenstudenten.unogame.player.Player;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 public class Game {
@@ -21,6 +22,7 @@ public class Game {
     private final Deck drawDeck;
     private final Random random = new Random();
     private boolean playedCardThisTurn = false;
+    private String wildColor = null;
 
     public Game(GameViewController gameViewController) {
         this.gameViewController = gameViewController;
@@ -41,7 +43,8 @@ public class Game {
             List<Card> hand = player.getCardsInHand();
             Card cardToPlay = null;
             for (Card card : hand) {
-                if (card.matches(discardDeck.getTopMost())) {
+                if (canBePlayed(card)){
+                    clearWildColor();
                     cardToPlay = card;
                     break;
                 }
@@ -55,11 +58,11 @@ public class Game {
                     playedCardThisTurn = true;
                     return;
                 }
-                if (drawnCard.matches(discardDeck.getTopMost())) {
+                if (canBePlayed(drawnCard)){
+                    clearWildColor();
                     cardToPlay = drawnCard;
                 }
             }
-
             setLastPlayedCard(cardToPlay);
             hand.remove(cardToPlay);
             if(cardsDrawn > 0){
@@ -94,7 +97,8 @@ public class Game {
             List<Card> playerHand = players.get(0).getCardsInHand();
             Card playedCard = playerHand.get(cardIndex);
 
-            if (playedCard.matches(discardDeck.getTopMost())) {
+            if (canBePlayed(playedCard)) {
+                clearWildColor();
                 setLastPlayedCard(playedCard);
                 playerHand.remove(cardIndex);
                 executeCardEffects(playedCard);
@@ -157,7 +161,7 @@ public class Game {
         return null;
     }
 
-    public void changeLastPlayedCardColor(){
+    public void setWildColor(){
         String color;
         if(activePlayerIndex == 0){
              color = gameViewController.showCardColorPicker();
@@ -179,11 +183,15 @@ public class Game {
                     throw new RuntimeException("this should never happen");
             }
         }
-        Card card = discardDeck.getTopMost();
-        card.setColor(color);
+        wildColor = color;
+        System.out.println("set wild to:" + color);
+        gameViewController.setWildIndicator(color);
+    }
 
-        setLastPlayedCard(card);
-        gameViewController.setDiscardPileCard(card);
+    private void clearWildColor(){
+        wildColor = null;
+        gameViewController.setWildIndicator(null);
+        System.out.println("wild cleared");
     }
 
     private void setLastPlayedCard(Card card) {
@@ -271,6 +279,10 @@ public class Game {
             }
         }
 
+    }
+
+    private boolean canBePlayed(Card card){
+        return  card.alwaysMatches() || wildColor != null && Objects.equals(card.getColor(), wildColor) || wildColor == null && card.matches(discardDeck.getTopMost());
     }
 
     private void shareStartCards(int startAmount) {

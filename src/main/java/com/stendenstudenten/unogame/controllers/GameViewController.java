@@ -13,6 +13,8 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Paint;
+import javafx.scene.shape.Ellipse;
 import javafx.scene.text.Text;
 import javafx.stage.StageStyle;
 
@@ -41,6 +43,8 @@ public class GameViewController {
     private Text StatusText;
     @FXML
     private Button nextTurnButton;
+    @FXML
+    private Ellipse wildIndicator;
 
     private Game game;
 
@@ -59,6 +63,7 @@ public class GameViewController {
         DrawPileCard.addEventFilter(MouseEvent.MOUSE_CLICKED, this::onDrawPileClick);
         nextTurnButton.addEventFilter(MouseEvent.MOUSE_CLICKED, this::onNextTurnButtonClick);
         setTurnDirText(TurnDirection.CLOCKWISE);
+        wildIndicator.setVisible(false);
 
         game = new Game(this);
         game.addPlayer("player");
@@ -69,6 +74,15 @@ public class GameViewController {
             game.startGame();
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    public void setWildIndicator(String color){
+        if(color != null){
+            wildIndicator.setFill(Paint.valueOf(color));
+            wildIndicator.setVisible(true);
+        }else{
+            wildIndicator.setVisible(false);
         }
     }
 

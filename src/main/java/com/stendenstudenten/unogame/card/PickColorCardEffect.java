@@ -7,6 +7,6 @@ public class PickColorCardEffect implements CardEffect {
     @Override
     public void execute(Game game) {
         System.out.println("Executing pick color effect!");
-        game.changeLastPlayedCardColor();
+        game.setWildColor();
     }
 }

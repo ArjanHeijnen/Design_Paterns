@@ -46,7 +46,7 @@ public class Deck {
             cards.add(builder.build());
             cards.add(builder.build());
             //todo make this draw 2 cards somehow
-            builder.clearEffects().setSymbol(14).addDrawCardEffect();
+            //builder.clearEffects().setSymbol(14).addDrawCardEffect();
             cards.add(builder.build());
             cards.add(builder.build());
 
@@ -59,7 +59,7 @@ public class Deck {
         cards.add(builder.build());
         cards.add(builder.build());
         //todo make this draw 4 cards somehow
-        builder.setSymbol(11).addDrawCardEffect();
+        //builder.setSymbol(11).addDrawCardEffect();
         cards.add(builder.build());
         cards.add(builder.build());
         cards.add(builder.build());

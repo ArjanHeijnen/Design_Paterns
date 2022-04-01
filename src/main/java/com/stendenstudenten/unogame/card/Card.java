@@ -32,6 +32,10 @@ public class Card {
         return this.symbol == card.symbol || this.color.equals(card.color) || alwaysMatches || card.alwaysMatches;
     }
 
+    public boolean alwaysMatches(){
+        return this.alwaysMatches;
+    }
+
     public static class CardBuilder {
         private String color;
         private int symbol;
